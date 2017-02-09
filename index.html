@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+        <META HTTP-EQUIV="Expires" CONTENT="-1">
+        <style type="text/css">
+            td, th {
+				padding: 1px 4px;
+			}
+        </style>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+<script type="text/javascript">
+    function goToPage() {
+        var precinct = document.getElementById('precinct').value;
+		
+	
+        var test = "/precinct.php?precinct="+precinct;
+		d3.json(test, function (error,data) {
+
+		function tabulate(data, columns) {
+		var table = d3.select('body').append('table')
+		var thead = table.append('thead')
+		var	tbody = table.append('tbody');
+
+		// append the header row
+		thead.append('tr')
+		  .selectAll('th')
+		  .data(columns).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+		  .data(data)
+		  .enter()
+		  .append('tr');
+
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+		  .data(function (row) {
+		    return columns.map(function (column) {
+		      return {column: column, value: row[column]};
+		    });
+		  })
+		  .enter()
+		  .append('td')
+		    .text(function (d) { return d.value; });
+console.log(test);
+	  return table;
+	}
+
+	// render the table(s)
+	tabulate(data, ['city']); // 2 column table
+
+	});
+    }
+
+    
+	   function goToPage3() {
+        var weightmin = document.getElementById('weight').value;
+	    var arrested = document.getElementById('arrest').value;
+		
+        var test = "/pinfo.php?weight="+weightmin+"&arrested="+arrested;
+		d3.json(test, function (error,data) {
+
+		function tabulate(data, columns) {
+		var table = d3.select('body').append('table')
+		var thead = table.append('thead')
+		var	tbody = table.append('tbody');
+
+		// append the header row
+		thead.append('tr')
+		  .selectAll('th')
+		  .data(columns).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+		  .data(data)
+		  .enter()
+		  .append('tr');
+
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+		  .data(function (row) {
+		    return columns.map(function (column) {
+		      return {column: column, value: row[column]};
+		    });
+		  })
+		  .enter()
+		  .append('td')
+		    .text(function (d) { return d.value; });
+	  return table;
+	}
+
+	// render the table(s)
+	tabulate(data, ['Arrests','Sex']); // 2 column table
+
+	});
+    }
+	
+	function genderstats() {
+	    var gender = document.getElementById('gender').value
+		if(gender.value  === undefined)
+			arrested = "M";
+	
+        var test = "/Citystats.php?gender="+gender;
+		d3.json(test, function (error,data) {
+
+		function tabulate(data, columns) {
+		var table = d3.select('body').append('table')
+		var thead = table.append('thead')
+		var	tbody = table.append('tbody');
+
+		// append the header row
+		thead.append('tr')
+		  .selectAll('th')
+		  .data(columns).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+		  .data(data)
+		  .enter()
+		  .append('tr');
+
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+		  .data(function (row) {
+		    return columns.map(function (column) {
+		      return {column: column, value: row[column]};
+		    });
+		  })
+		  .enter()
+		  .append('td')
+		    .text(function (d) { return d.value; });
+	  return table;
+	}
+	// render the table(s)
+	tabulate(data, ['Arrests', 'city']); // 2 column table
+
+	});
+	}
+	function frisk() {
+	    var city = document.getElementById('CityFrisk').value
+	
+        var test = "/City.php?arrest="+city;
+		d3.json(test, function (error,data) {
+
+		function tabulate(data, columns) {
+		var table = d3.select('body').append('table')
+		var thead = table.append('thead')
+		var	tbody = table.append('tbody');
+
+		// append the header row
+		thead.append('tr')
+		  .selectAll('th')
+		  .data(columns).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+		  .data(data)
+		  .enter()
+		  .append('tr');
+
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+		  .data(function (row) {
+		    return columns.map(function (column) {
+		      return {column: column, value: row[column]};
+		    });
+		  })
+		  .enter()
+		  .append('td')
+		    .text(function (d) { return d.value; });
+	  return table;
+	}
+	// render the table(s)
+	tabulate(data, ['People','frisked','City']); // 2 column table
+
+	});
+	
+	
+    }
+</script>
+<br>
+<p> Find city from precinct number <br> </p>
+<input type="text" id="precinct" />
+<input type="submit" value="submit" onclick="goToPage();" />
+
+<p> Likely to be arrested based on weight <br> </p>
+
+weight greater than: <input type="text" id="weight" /><br>
+arrested? (Y or N): <input type="text" id="arrest" />
+<br>
+
+<input type="submit" value="submit" onclick="goToPage3();" />
+<br>
+<p> Does a certain Gender make you more likely to be arrested? (input gender) <br> </p>
+
+<input type="text" id="gender" />
+<input type="submit" value="genderstats" onclick="genderstats();" />
+
+<p> Does an a Frisk lead to an Arrest? <br> </p>
+
+Arrested? (Y or N):<input type="text" id="CityFrisk" />
+<input type="submit" value="frisk" onclick="frisk();" />
+
+    </body>
+</html>
